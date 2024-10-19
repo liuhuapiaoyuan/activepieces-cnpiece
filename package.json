@@ -1,0 +1,16 @@
+{
+  "name": "activepieces-cnpiece",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "cli":"bun --filter 'activepieces-cnpiece/cli' start"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "workspaces":["./packages/*"]
+}
