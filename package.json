@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "cli":"bun --filter 'activepieces-cnpiece/cli' start"
+    "cli":"bun --filter 'activepieces-cnpiece/cli' start" , 
+    "release:wxpusher":"bun run --filter '@activepieces-cnpiece/wxpusher' release "  
   },
   "devDependencies": {
     "@types/bun": "latest",

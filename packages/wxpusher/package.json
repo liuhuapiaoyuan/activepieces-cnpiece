@@ -1,8 +1,8 @@
 {
   "name": "@activepieces-cnpiece/wxpusher",
-  "version": "0.0.9",
+  "version": "0.0.14",
   "description": "activepieces： WxPusher 推送工具",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
@@ -10,7 +10,8 @@
     "docs"
   ],
   "scripts": {
-    "build": "bun build ./src/index.ts --outdir=dist --external=@activepieces/pieces-common @activepieces/pieces-framework --format=cjs  --tsconfig=tsconfig.json && tsc --declaration --emitDeclarationOnly && npm publish"
+    "build": "bun build ./src/index.ts --outdir=dist --external=@activepieces/pieces-common @activepieces/pieces-framework --format=cjs  --tsconfig=tsconfig.json && tsc --declaration --emitDeclarationOnly ",
+    "release": "bun build ./src/index.ts --outdir=dist --external=@activepieces/pieces-common @activepieces/pieces-framework --format=cjs  --tsconfig=tsconfig.json && tsc --declaration --emitDeclarationOnly && npm publish"
   },
   "keywords": [],
   "author": "liuhuapiaoyuan",

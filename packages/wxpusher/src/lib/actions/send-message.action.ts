@@ -11,11 +11,17 @@ export const sendTopicMessage = createAction({
   displayName: '发送Topic消息',
   description: '根据Topic消息发送',
   props: {
-    topicId: Property.Number({
+    topicIds: Property.Array({
       displayName: '发送的TopicId',
       description:
         '从 ‘https://wxpusher.zjiecode.com/admin/main/topics/list’ 获得主题ID',
-      required: true,
+      required: false,
+    }),
+    uids: Property.Array({
+      displayName: '用户ID列表',
+      description:
+        '发送目标的UID，是一个数组。注意uids和topicIds可以同时填写，也可以只填写一个。',
+      required: false,
     }),
     link: Property.LongText({
       displayName: '外链',
@@ -34,6 +40,7 @@ export const sendTopicMessage = createAction({
       required: true,
     }),
   },
+  
   async run(configValue) {
     // 分发的
     const appToken = configValue.auth;
@@ -43,10 +50,9 @@ export const sendTopicMessage = createAction({
       content: configValue.propsValue['content'],
       summary: configValue.propsValue['summary'], //消息摘要，显示在微信聊天页面或者模版消息卡片上，限制长度100，可以不传，不传默认截取content前面的内容。
       contentType: 1, //内容类型 1表示文字  2表示html(只发送body标签内部的数据即可，不包括body标签) 3表示markdown
-      topicIds: [
-        //发送目标的topicId，是一个数组！！！，也就是群发，使用uids单发的时候， 可以不传。
-        Number(configValue.propsValue['topicId']),
-      ],
+      topicIds: configValue.propsValue.topicIds?.map(Number),
+      // uids
+      uids: configValue.propsValue.uids,
       url: configValue.propsValue['link'], //原文链接，可选参数
       verifyPay: false, //是否验证订阅时间，true表示只推送给付费订阅用户，false表示推送的时候，不验证付费，不验证用户订阅到期时间，用户订阅过期了，也能收到。
     };
