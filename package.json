@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "cli":"bun --filter 'activepieces-cnpiece/cli' start" , 
-    "release:wxpusher":"bun run --filter '@activepieces-cnpiece/wxpusher' release "  
+    "release:wxpusher":"bun run --filter '@activepieces-cnpiece/wxpusher' release "   , 
+    "release:wechatmp":"bun run --filter '@activepieces-cnpiece/wechatmp' release "  
   },
   "devDependencies": {
     "@types/bun": "latest",

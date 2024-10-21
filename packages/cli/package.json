@@ -1,5 +1,5 @@
 {
-    "name": "activepieces-cnpiece/cli",
+    "name": "@activepieces-cnpiece/cli",
     "version": "1.0.0",
     "bin": {
         "pieces-cli": "../../dist/cli/src/index.js"

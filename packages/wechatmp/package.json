@@ -1,7 +1,7 @@
 {
-  "name": "@activepieces-cnpiece/wxpusher",
-  "version": "0.0.17",
-  "description": "activepieces： WxPusher 推送工具",
+  "name": "@activepieces-cnpiece/wechatmp",
+  "version": "0.0.12",
+  "description": "activepieces： 微信公众号工具箱",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -10,9 +10,9 @@
     "docs"
   ],
   "scripts": {
+    "build": "bun build ./src/index.ts --outdir=dist --external=@activepieces/pieces-common @activepieces/pieces-framework --format=cjs  --tsconfig=tsconfig.json && tsc --declaration --emitDeclarationOnly ",
     "patch:version": "npm version patch",
-    "build": "bun build ./src/index.ts --outdir=dist --bundle --external=@activepieces/pieces-common --external=@activepieces/pieces-framework --format=cjs  --tsconfig=tsconfig.json && tsc --declaration --emitDeclarationOnly ",
-    "release": "bun build ./src/index.ts --outdir=dist --bundle --external=@activepieces/pieces-common --external=@activepieces/pieces-framework --format=cjs  --tsconfig=tsconfig.json && tsc --declaration --emitDeclarationOnly && npm publish && bun patch:version"
+    "release": "bun build ./src/index.ts  --bundle --target=node --external=@activepieces/pieces-common --external=@activepieces/pieces-framework --external=crypto  --outdir=dist --format=cjs  --tsconfig=tsconfig.json && npm publish && bun patch:version"
   },
   "keywords": [],
   "author": "liuhuapiaoyuan",
