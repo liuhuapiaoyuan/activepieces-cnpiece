@@ -1,6 +1,6 @@
 {
   "name": "@activepieces-cnpiece/wechatmp",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "activepieces： 微信公众号工具箱",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

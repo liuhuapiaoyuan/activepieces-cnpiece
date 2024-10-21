@@ -19,9 +19,12 @@ export class WechatmpClient {
 
 
     async getAccessToken(force_refresh?: boolean) {
-        const token = await this.tokenStore.get(this.appId)
-        if (token) {
-            return token
+        if (!force_refresh) {
+            const token = await this.tokenStore.get(this.appId)
+            if (token) {
+                return token
+            }
+
         }
         const data = {
             grant_type: "client_credential",
@@ -43,16 +46,16 @@ export class WechatmpClient {
 
     async userGet(next_openid?: string) {
         const data = await this.request<UserGetResp>('/user/get', {
-            queryParam: {
+            queryParam: next_openid?{
                 next_openid: next_openid!
-            }
+            }:{}
         })
         return data
     }
-    async userTagGet(tagid: number ,next_openid?: string) {
+    async userTagGet(tagid: number, next_openid?: string) {
         const data = await this.request<UserTagGetResp>('/user/tag/get', {
             body: JSON.stringify({
-                tagid: tagid!,
+                tagid,
                 next_openid: next_openid!
             }),
             method: "POST"
@@ -84,11 +87,16 @@ export class WechatmpClient {
         })
     }
 
-    async request<T>(endpoint: string, options?: RequestInit & { queryParam?: Record<string, string> }) {
+    async request<T>(endpoint: string, options?: RequestInit & { queryParam?: Record<string, undefined> }) {
         const url = `https://api.weixin.qq.com/cgi-bin${endpoint}`
         const queryParam = options?.queryParam ?? {}
         queryParam['access_token'] = await this.getAccessToken()
-        const search = new URLSearchParams(queryParam)
+        const search = new URLSearchParams()
+        for (const [key, value] of Object.entries(queryParam)) {
+            if (value) {
+                search.append(key, value)
+            }
+        }
         return fetch(url + "?" + search.toString(), options).then(r => r.json()).then(r => {
             if (r.errcode) {
                 throw new Error(r.errmsg)
