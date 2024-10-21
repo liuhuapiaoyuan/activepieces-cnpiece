@@ -23,22 +23,48 @@ export const sendTopicMessage = createAction({
         '发送目标的UID，是一个数组。注意uids和topicIds可以同时填写，也可以只填写一个。',
       required: false,
     }),
-    link: Property.LongText({
-      displayName: '外链',
-      description: '点击后打开的外链',
+    contentType: Property.StaticDropdown({
+      displayName: '内容类型',
       required: true,
+      defaultValue:2, 
+      options: {
+        options: [
+          {value:1,label:"文本渲染"},
+          {value:2,label:"html渲染"},
+          {value:3,label:"markdown渲染"},
+        ]
+      },
     }),
-    summary: Property.LongText({
-      displayName: '发送简要(100字以内)',
-      description: '简要信息会出现在推送的聊天窗口内',
-      required: true,
-      validators: [Validators.maxLength(100)],
-    }),
+ 
     content: Property.LongText({
       displayName: '发送文本',
       description: '发送的内容会出现在点击窗口打开后的网页中',
       required: true,
     }),
+    link: Property.LongText({
+      displayName: '外链',
+      description: '点击后打开的外链',
+      required: false,
+    }),
+    summary: Property.LongText({
+      displayName: '消息摘要(20字以内)',
+      description: '显示在微信聊天页面或者模版消息卡片上，限制长度20',
+      required: false,
+      validators: [Validators.maxLength(20)],
+    }),
+    verifyPayType: Property.StaticDropdown({
+      displayName: '是否验证订阅时间',
+      description: '显示在微信聊天页面或者模版消息卡片上，限制长度20',
+      required: false,
+      options: {
+        options: [
+          {value:0,label:"不校验"},
+          {value:1,label:"只发送给付费用户"},
+          {value:2,label:"只发送给未订阅或者订阅过期的用户"},
+        ]
+      },
+    }),
+ 
   },
   
   async run(configValue) {
@@ -49,12 +75,11 @@ export const sendTopicMessage = createAction({
       appToken,
       content: configValue.propsValue['content'],
       summary: configValue.propsValue['summary'], //消息摘要，显示在微信聊天页面或者模版消息卡片上，限制长度100，可以不传，不传默认截取content前面的内容。
-      contentType: 1, //内容类型 1表示文字  2表示html(只发送body标签内部的数据即可，不包括body标签) 3表示markdown
+      contentType: configValue.propsValue.contentType,
       topicIds: configValue.propsValue.topicIds?.map(Number),
-      // uids
       uids: configValue.propsValue.uids,
       url: configValue.propsValue['link'], //原文链接，可选参数
-      verifyPay: false, //是否验证订阅时间，true表示只推送给付费订阅用户，false表示推送的时候，不验证付费，不验证用户订阅到期时间，用户订阅过期了，也能收到。
+      verifyPayType:configValue.propsValue.verifyPayType
     };
     const topStoryIdsResponse = await httpClient.sendRequest<any>({
       method: HttpMethod.POST,

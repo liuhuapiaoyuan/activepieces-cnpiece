@@ -1,6 +1,6 @@
 {
   "name": "@activepieces-cnpiece/wxpusher",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "activepieces： WxPusher 推送工具",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
