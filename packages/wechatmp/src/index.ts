@@ -6,6 +6,7 @@ import { templateSend } from "./lib/actions/template-send";
 import { userList } from "./lib/actions/user-list";
 import { userTagList } from "./lib/actions/user-tag-list";
 import { accessToken } from "./lib/actions/access-token";
+import { tagsGet } from "./lib/actions/tags-get";
    
 
 
@@ -37,6 +38,6 @@ export const wxpusher = createPiece({
   minimumSupportedRelease: '0.27.1',
   logoUrl: "https://cdn.kedao.ggss.club/wechatmp.svg",
   authors: ['liuhuapiaoyuan'],
-  actions: [accessToken,respXMLMessage ,templateSend,userList,userTagList],
+  actions: [accessToken,respXMLMessage ,templateSend,userList,userTagList,tagsGet],
   triggers: [receiveUsermsg],
 });

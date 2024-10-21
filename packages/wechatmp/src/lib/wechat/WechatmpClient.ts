@@ -63,6 +63,9 @@ export class WechatmpClient {
         return data
     }
 
+    async tagsGet(){
+        return this.request<{ tags: { id: number, name: string,count:number }[] }>('/tags/get')
+    }
     /**
      * 发送模板消息
      * @param data 
