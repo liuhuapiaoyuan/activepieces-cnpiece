@@ -4,6 +4,8 @@ import { sendTopicMessage } from "./lib/actions/send-message.action";
 import { queryScanUsers } from "./lib/actions/query-scanusers.action";
 import { queryUserList } from "./lib/actions/query-userlist.action";
 import { receiveUsermsg } from "./lib/triggers/receive-usermsg.trigger";
+import { removeUser } from "./lib/actions/remove-user";
+import { rejectUser } from "./lib/actions/reject-user";
    
 
 
@@ -28,6 +30,6 @@ export const wxpusher = createPiece({
   minimumSupportedRelease: '0.27.1',
   logoUrl: "https://cdn.kedao.ggss.club/wxpusher.png",
   authors: ['liuhuapiaoyuan'],
-  actions: [sendTopicMessage, queryScanUsers, queryUserList],
+  actions: [sendTopicMessage, queryScanUsers, queryUserList,removeUser,rejectUser],
   triggers: [receiveUsermsg],
 });
