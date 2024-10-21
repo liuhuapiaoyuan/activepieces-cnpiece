@@ -1,7 +1,11 @@
 
 import { createPiece, PieceAuth } from "@activepieces/pieces-framework"; 
 import { receiveUsermsg } from "./lib/triggers/receive-usermsg.trigger";
-import { respMessage } from "./lib/actions/resp";
+import { respXMLMessage } from "./lib/actions/resp-xml-message";
+import { templateSend } from "./lib/actions/template-send";
+import { userList } from "./lib/actions/user-list";
+import { userTagList } from "./lib/actions/user-tag-list";
+import { accessToken } from "./lib/actions/access-token";
    
 
 
@@ -9,6 +13,7 @@ const markdownPropertyDescription = `
 **微信公众号配置**
 
 > [公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)。
+> [公众号平台](https://mp.weixin.qq.com)。
 `;
 
 export const wxpusherAuth = PieceAuth.CustomAuth({
@@ -32,6 +37,6 @@ export const wxpusher = createPiece({
   minimumSupportedRelease: '0.27.1',
   logoUrl: "https://cdn.kedao.ggss.club/wechatmp.svg",
   authors: ['liuhuapiaoyuan'],
-  actions: [respMessage],
+  actions: [accessToken,respXMLMessage ,templateSend,userList,userTagList],
   triggers: [receiveUsermsg],
 });

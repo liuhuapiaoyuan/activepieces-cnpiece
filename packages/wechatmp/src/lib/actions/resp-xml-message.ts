@@ -5,9 +5,10 @@ import { wxpusherAuth } from '../..';
 /**
  * 发送消息
  */
-export const respMessage = createAction({
-  name: 'respMessage',
+export const respXMLMessage = createAction({
+  name: 'respXMLMessage',
   auth: wxpusherAuth,
+  requireAuth: true,
   displayName: '微信响应消息',
   description: '按照微信的规范响应消息',
   props: {
@@ -17,7 +18,6 @@ export const respMessage = createAction({
       required: false,
     }), 
   },
-  
   async run(configValue) { 
     return new Response(
       configValue.propsValue.content,
