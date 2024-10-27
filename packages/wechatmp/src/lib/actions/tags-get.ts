@@ -1,7 +1,7 @@
 import { createAction, PieceAuth, Property, StoreScope, Validators } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { wxpusherAuth } from '../..';
-import { getWechatClient } from '../utils';
+import { getWechatApi } from '../utils';
  
 /**
  * 获取公众号已创建的标签
@@ -15,8 +15,8 @@ export const tagsGet = createAction({
   props: { },
   
   async run({  auth, store }) {
-    const client = getWechatClient(auth, store)
-    const list = await client.tagsGet()
+    const client = getWechatApi(auth, store)
+    const list = await client.userService.tagsGet()
     return list
   },
 });

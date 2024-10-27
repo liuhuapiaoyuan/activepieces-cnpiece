@@ -1,7 +1,7 @@
 import { createAction, PieceAuth, Property, StoreScope, Validators } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { wxpusherAuth } from '../..';
-import { getWechatClient } from '../utils';
+import { getWechatApi } from '../utils';
 /**
  * accessToken
  */
@@ -20,7 +20,7 @@ export const accessToken = createAction({
     })
    },
   async run({ auth, store }) {
-    const client = getWechatClient(auth, store)
+    const client = getWechatApi(auth,store)
     return client.getAccessToken()
   },
 });

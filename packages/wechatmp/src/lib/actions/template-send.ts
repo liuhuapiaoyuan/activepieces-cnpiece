@@ -1,6 +1,6 @@
 import { createAction, PieceAuth, Property, StoreScope, Validators } from '@activepieces/pieces-framework';
 import { wxpusherAuth } from '../..';
-import { getWechatClient } from '../utils';
+import { getWechatApi } from '../utils';
  
 /**
  */
@@ -55,7 +55,7 @@ export const templateSend = createAction({
     })
   },
   async run({ propsValue, auth, store }) {
-    const client = getWechatClient(auth, store)
+    const client = getWechatApi(auth, store)
     const { touser, template_id, url, data, miniprogram_appid, miniprogram_pagepath, client_msg_id } = propsValue
     const sendData = data.reduce((pre, cur) => {
       // @ts-expect-error Property 'keyword' 
@@ -72,7 +72,7 @@ export const templateSend = createAction({
       } : undefined,
       client_msg_id
     }
-    const list = await client.messageTemplateSend(params)
+    const list = await client.userService.messageTemplateSend(params)
     return list
   },
 });

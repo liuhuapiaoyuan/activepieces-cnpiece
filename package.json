@@ -3,9 +3,9 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "cli":"bun --filter 'activepieces-cnpiece/cli' start" , 
-    "release:wxpusher":"bun run --filter '@activepieces-cnpiece/wxpusher' release "   , 
-    "release:wechatmp":"bun run --filter '@activepieces-cnpiece/wechatmp' release "  
+    "cli": "bun --filter 'activepieces-cnpiece/cli' start",
+    "release:wxpusher": "bun run --filter '@activepieces-cnpiece/wxpusher' release ",
+    "release:wechatmp": "bun run --filter '@activepieces-cnpiece/wechatmp' release "
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -14,5 +14,6 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "workspaces":["./packages/*"]
+  "workspaces": ["./packages/*"],
+  "dependencies": {}
 }

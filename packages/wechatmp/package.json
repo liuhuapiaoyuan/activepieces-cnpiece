@@ -1,6 +1,6 @@
 {
   "name": "@activepieces-cnpiece/wechatmp",
-  "version": "0.0.14",
+  "version": "0.0.25",
   "description": "activepieces： 微信公众号工具箱",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,9 +10,9 @@
     "docs"
   ],
   "scripts": {
-    "build": "bun build ./src/index.ts --outdir=dist --external=@activepieces/pieces-common @activepieces/pieces-framework --format=cjs  --tsconfig=tsconfig.json && tsc --declaration --emitDeclarationOnly ",
+    "build": "bun build ./src/index.ts --outdir=dist --format=cjs  --tsconfig=tsconfig.json && tsc --declaration --emitDeclarationOnly ",
     "patch:version": "npm version patch",
-    "release": "bun build ./src/index.ts  --bundle --target=node --external=@activepieces/pieces-common --external=@activepieces/pieces-framework --external=crypto  --outdir=dist --format=cjs  --tsconfig=tsconfig.json && npm publish && bun patch:version"
+    "release": "bun build ./src/index.ts  --bundle --target=node  --outdir=dist --format=cjs  --tsconfig=tsconfig.json && npm publish && bun run patch:version"
   },
   "keywords": [],
   "author": "liuhuapiaoyuan",
@@ -21,10 +21,14 @@
     "url": "git+https://github.com/liuhuapiaoyuan/activepieces-cnpiece.git"
   },
   "license": "MIT",
-  "devDependencies": {},
-  "peerDependencies": {
+  "devDependencies": {
     "@activepieces/pieces-common": "^0.2.25",
     "@activepieces/pieces-framework": "^0.7.37"
+  },
+  "peerDependencies": {
+    "@activepieces/pieces-common": "^0.2.25",
+    "@activepieces/pieces-framework": "^0.7.37",
+    "wechatmp-kit": "^0.0.10"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",

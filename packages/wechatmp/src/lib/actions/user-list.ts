@@ -1,7 +1,7 @@
 import { createAction, PieceAuth, Property, StoreScope, Validators } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { wxpusherAuth } from '../..';
-import { getWechatClient } from '../utils';
+import { getWechatApi, getWechatMessage } from '../utils';
  
 /**
  * 获得用户列表
@@ -21,8 +21,8 @@ export const userList = createAction({
   },
   
   async run({ propsValue, auth, store }) {
-    const client = getWechatClient(auth, store)
-    const list = await client.userGet(propsValue.nextOpenid)
+    const client = getWechatApi(auth, store)
+    const list = await client.userService.userGet(propsValue.nextOpenid)
     return list
   },
 });

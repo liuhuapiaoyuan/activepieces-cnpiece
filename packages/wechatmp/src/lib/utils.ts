@@ -1,17 +1,36 @@
 import type { SecretTextProperty, StaticPropsValue, Store } from "@activepieces/pieces-framework";
-import { WechatmpClient } from "./wechat/WechatmpClient";
-import { ActivepiecesTokenStore } from "./ActivepiecesTokenStore";
+import type { WxpusherAuthType } from "..";
+import { WechatMpApi } from "wechatmp-kit";
+import { ActivepiecesTokenManager } from "./wechat/ActivepiecesTokenManager";
 
-
-
-export function getWechatClient(auth: StaticPropsValue<{
-    appId: SecretTextProperty<true>;
-    appSecret: SecretTextProperty<true>;
-}>
-    , store: Store) {
-    return new WechatmpClient(
-        new ActivepiecesTokenStore(store),
-        auth.appId,
-        auth.appSecret
+ 
+/**
+ * 获得服务接口
+ * @param auth 
+ * @param store 
+ * @returns 
+ */
+export function getWechatApi(auth: WxpusherAuthType, store: Store) {
+    return new WechatMpApi({
+        appId: auth.appId,
+        appSecret: auth.appSecret,
+        accessTokenCacheManager: new ActivepiecesTokenManager(store)
+    })
+}
+/**
+ * 获得消息包
+ * @param auth 
+ * @param store 
+ * @returns 
+ */
+export function getWechatMessage(auth: WxpusherAuthType, store: Store) {
+    const api =  new WechatMpApi({
+        appId: auth.appId,
+        appSecret: auth.appSecret,
+        accessTokenCacheManager: new ActivepiecesTokenManager(store)
+    })
+    return api.getMessageService(
+        auth.token,
+        auth.safeMode=="true" ? auth.encodingAESKey : undefined
     )
 }

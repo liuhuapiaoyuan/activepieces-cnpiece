@@ -4,42 +4,31 @@ import {
     TriggerStrategy,
     createTrigger,
 } from '@activepieces/pieces-framework';
+import { getWechatMessage } from '../utils';
+import { renderXML } from 'wechatmp-kit';
 
-import crypto from 'crypto';
 
 const message = `**消息回调地址:**
 \`\`\`text
-{{webhookUrl}}
+{{webhookUrl}}/sync
 \`\`\`
 <br>
-<br>
-**Test URL:**
-\`\`\`text
-{{webhookUrl}}/test
-\`\`\`
-<br>
-
+填写到微信公众号消息服务接口
 `
- 
+
 
 export const receiveUsermsg = createTrigger({
     name: 'receiveUsermsg',
     displayName: '收到用户消息',
-    auth:wxpusherAuth,
+    auth: wxpusherAuth,
     type: TriggerStrategy.WEBHOOK,
     description: `目前WxPusher已经支持指令类的上行消息，用户发送指令，WxPusher会将指令消息回调给开发者`,
     props: {
         markdown: Property.MarkDown({
             value: message,
-        }),
-        token: Property.ShortText({
-            description: '微信TOKEN',
-            required: true,
-            defaultValue: '',
-            displayName: 'Token'
-        }),
+        })
     },
-    sampleData: { },
+    sampleData: {},
     async onEnable() {
         // ignore
     },
@@ -47,27 +36,40 @@ export const receiveUsermsg = createTrigger({
         // ignore
     },
     async run(context) {
-        const content = context.payload.body
+        const wechatMpApi = getWechatMessage(context.auth, context.store)
+        const body = context.payload.body as { xml: Record<string, any> }
         const query = context.payload.queryParams
-        const signature = query.signature
+        // @ts-expect-error trigger has  property 'method'
+        const method = context.payload.method
+        const signature: string = query.signature
+        const msg_signature: string = query.msg_signature
         const timestamp = query.timestamp
+        const echostr = query.echostr
         const nonce = query.nonce
-        const isValid = checkSignature(context.propsValue.token , signature,timestamp,nonce)
-        return [{
-            payload:context.payload,
-            isValid,
-            echostr:query.echostr
-        }]
-    } 
+        let message = {}
+        try {
+
+            message = (method === 'POST' && body.xml) ? await wechatMpApi.parserInput(
+                renderXML(body.xml)
+                , {
+                    signature: (msg_signature ?? signature), nonce, timestamp
+                }) : {}
+        } catch (error) {
+            console.error("消息解析错误", error)
+        }
+        const signatureVerified = wechatMpApi.checkSign({
+            timestamp, nonce, signature
+        })
+
+
+        return [
+            {
+                signatureVerified,
+                method,
+                message,
+                msg_signature,
+                signature, timestamp, nonce, echostr,
+            }
+        ]
+    }
 });
-
-
-function checkSignature(token: string, signature: string, timestamp: string, nonce: string) {
-    const shasum = crypto.createHash('sha1');
-//     1）将token、timestamp、nonce三个参数进行字典序排序
-    shasum.update([token, timestamp, nonce].sort().join(''));
-// 2）将三个参数字符串拼接成一个字符串进行sha1加密
-    const hash = shasum.digest('hex');
-// 3）开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
-    return hash === signature;
-}
