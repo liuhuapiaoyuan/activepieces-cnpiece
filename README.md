@@ -6,11 +6,17 @@
 
 ## 已集成组件 ✅
 - **微信通知**: 集成了 [wxpusher](https://wxpusher.zjiecode.com/) 进行实时消息推送  
+
+- [![Download][@activepieces-cnpiece/wxpusher]][@activepieces-cnpiece/wxpusher]
+
+
  [@activepieces-cnpiece/wxpusher]: https://img.shields.io/npm/v/@activepieces-cnpiece/wxpusher?label=@activepieces-cnpiece/wxpusher
 
 
 - **微信公众号**
 ```@activepieces-cnpiece/wechatmp```
+
+- [![Download][@activepieces-cnpiece/wechatmp]][@activepieces-cnpiece/wechatmp]
 
 [@activepieces-cnpiece/wechatmp]: https://img.shields.io/npm/v/@activepieces-cnpiece/wechatmp?label=@activepieces-cnpiece/wechatmp
 
